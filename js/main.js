@@ -19,43 +19,27 @@ let messageTwo = {
 
 
 function init () {
-    allSessions.push(
-        new Session("den første gang", 
-        {
-            hours: 0, 
-            minutes: 0, 
-            seconds: 5
-        }, [messageOne])
-    )
-
-    allSessions.push(
-        new Session("den andre gang", 
-        {
-            hours: 0, 
-            minutes: 0, 
-            seconds: 30
-        })
-    )
 
     let someSession = 
-    new Session("someSession", 
-    {
-        hours: 0, 
-        minutes: 0, 
-        seconds: 3
-    })
+        new Session("someSession", 
+        {
+            hours: 0, 
+            minutes: 0, 
+            seconds: 80
+        })
 
     let nextSession = 
-    new Session("nextSession", 
-    {
-        hours: 0, 
-        minutes: 0, 
-        seconds: 6
-    })
+        new Session("nextSession", 
+        {
+            hours: 0, 
+            minutes: 0, 
+            seconds: 80
+        })
 
     let firstTimeline = new Timeline() 
     firstTimeline.add(someSession)
     firstTimeline.add(nextSession)
+    firstTimeline.getTotalRunningTime()
     let currentSession = firstTimeline.getCurrentSession()
     currentSession.playing()
 
@@ -114,6 +98,10 @@ class controlls {
 }
 
 let initApp = () => {
+
+}
+
+let makeSessions = () => {
 
 }
 

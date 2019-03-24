@@ -7,11 +7,15 @@ let countDown = (timerObject) => {
     
         timeRemainingInSeconds -= 1
 
-        return {
-                hours: Math.floor(timeRemainingInSeconds / 3600), 
-                minutes: Math.floor(timeRemainingInSeconds % 3600 /60), 
-                seconds: Math.floor(timeRemainingInSeconds % 3600 % 60)
-            }
+        return parseSeconds(timeRemainingInSeconds)
+}
+
+let parseSeconds = (seconds) => {
+    return {
+        hours: Math.floor(seconds / 3600), 
+        minutes: Math.floor(seconds % 3600 /60), 
+        seconds: Math.floor(seconds % 3600 % 60)
+    }
 }
 
 let clock = (callback) => {
