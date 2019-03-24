@@ -3,21 +3,7 @@ let allSessions = []
 
 //this function takes care of the counting down!
 
-function countDown (timerObject) {
 
-    let timeRemainingInSeconds = 
-        timerObject.hours * 3600 + 
-        timerObject.minutes * 60 + 
-        timerObject.seconds
-    
-        timeRemainingInSeconds -= 1
-
-        return {
-                hours: Math.floor(timeRemainingInSeconds / 3600), 
-                minutes: Math.floor(timeRemainingInSeconds % 3600 /60), 
-                seconds: Math.floor(timeRemainingInSeconds % 3600 % 60)
-            }
-}
 
 //multiple sessions can be create, run at the same time, and added to a timeline
 
@@ -31,45 +17,13 @@ let messageTwo = {
     timing: 25
 }
 
-class Session {
-    constructor (title, timeObject, messages) {
-        this.isRunning = false; 
-        this.title = title
-        this.timeObject = timeObject || {}
-        this.messages = messages || []  
-    }
-    init() {
-        this.isRunning ? this.run() : "onono"
-    }
-    play() {
-        this.isRunning = true
-    }
-    stop() {
-        this.isRunning = false
-    }
-    getRemainingTime () {
-        return this.timeObject.hours * 3600 + this.timeObject.minutes * 60 + this.timeObject.seconds
-    }
-    
-    run () {
-        this.timeObject = countDown(this.timeObject)
-        console.table({
-            title: this.title, 
-            time: this.timeObject, 
-            messages: "nononon"
-        })
-    }
-}
-
-
-
 function init () {
     allSessions.push(
         new Session("den første gang", 
         {
             hours: 0, 
             minutes: 0, 
-            seconds: 2
+            seconds: 5
         }, [messageOne])
     )
 
@@ -81,18 +35,51 @@ function init () {
             seconds: 30
         })
     )
-    allSessions[0].play()
-    allSessions[1].play()
+
+    allSessions[0].playing()
+    allSessions[0].displayMessage(allSessions[0].messages.default.sessionStarted)
+    //allSessions[1].playing()
+
     setInterval( () => {
         allSessions.forEach( session => {
-            session.init()
-            if( session.getRemainingTime() <= 0 ) session.stop()
+            console.table({
+                title: session.title, 
+                time: session.timeObject, 
+                messages: session.messages
+            })
+            
+            if(session.isRunning) session.timeObject = countDown(session.timeObject)
+            
+            if( session.getRemainingTime() <= 0 ) {
+                console.log(session.messages.default.sessionFinished)
+                session.isCompleted()
+            }
         } )
     }, 1000) 
 }
 
-init()
 
+class Timeline {
+    constructor (allSessions) {
+        this.isRunning = false
+        this.allSessions =  allSessions || []
+    }
+    add (session) {
+        this.allSessions.push(session)
+    }
+    remove () {
+
+    }
+    playing () {
+        this.isRunning = true
+    }
+}
+
+let startTimeline = () => {
+
+}
+
+init()
 
 
 
