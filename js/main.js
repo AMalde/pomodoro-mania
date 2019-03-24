@@ -1,3 +1,5 @@
+let allSessions = []
+
 
 //this function takes care of the counting down!
 
@@ -34,19 +36,19 @@ class Session {
         this.isRunning = false; 
         this.title = title
         this.timeObject = timeObject || {}
-        this.messages = messages || []
-        
+        this.messages = messages || []  
     }
-
     init() {
         this.isRunning ? this.run() : "onono"
     }
-
     play() {
         this.isRunning = true
     }
     stop() {
         this.isRunning = false
+    }
+    getRemainingTime () {
+        return this.timeObject.hours * 3600 + this.timeObject.minutes * 60 + this.timeObject.seconds
     }
     
     run () {
@@ -54,7 +56,7 @@ class Session {
         console.table({
             title: this.title, 
             time: this.timeObject, 
-            messages: this.messages[0].content
+            messages: "nononon"
         })
     }
 }
@@ -62,29 +64,31 @@ class Session {
 
 
 function init () {
-    let allSessions = []
     allSessions.push(
         new Session("den første gang", 
         {
-            hours: 2, 
-            minutes: 30, 
-            seconds: 45
+            hours: 0, 
+            minutes: 0, 
+            seconds: 2
         }, [messageOne])
     )
 
     allSessions.push(
         new Session("den andre gang", 
         {
-            hours: 1, 
-            minutes: 20, 
-            seconds: 25
+            hours: 0, 
+            minutes: 0, 
+            seconds: 30
         })
     )
-
     allSessions[0].play()
+    allSessions[1].play()
     setInterval( () => {
-        allSessions.forEach( session => session.init() )
-    }, 1000)
+        allSessions.forEach( session => {
+            session.init()
+            if( session.getRemainingTime() <= 0 ) session.stop()
+        } )
+    }, 1000) 
 }
 
 init()
