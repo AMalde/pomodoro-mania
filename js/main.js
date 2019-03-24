@@ -1,21 +1,31 @@
 
 class Session {
-    constructor (title) {
-        this.time = {}
+    constructor (title, timeObject) {
+        this.timeObject = timeObject || {}
+        this.messages = {}
         this.title = title
     }
 
     run () {
         console.table({
             title: this.title, 
-            time: this.time
+            time: this.timeObject
         })
     }
 }
 
+
+
 function init () {
-    let firstSession = new Session("den første gang")
-    firstSession.run()
+    let allSessions = []
+    allSessions.push(
+        new Session("den første gang", {hours: 2, minutes: 30, seconds: 45})
+    )
+    setInterval( () => {
+        allSessions.forEach( session => session.run() )
+    }, 1000)
+    
+    countDown (allSessions[0].timeObject)
 }
 
 init()
@@ -41,8 +51,3 @@ function countDown (timerObject) {
     }, 1000)
 }
 
-countDown ({
-    hours: 1, 
-    minutes: 0, 
-    seconds: 2
-})
