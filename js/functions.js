@@ -19,3 +19,12 @@ let clock = (callback) => {
         callback()
     }, 1000)
 }
+
+let sessionView = (session) => {
+    console.table({
+        title: session.title, 
+        time: session.timeObject, 
+        messages: session.messages
+    })
+}
+
